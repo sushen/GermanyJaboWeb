@@ -41,6 +41,23 @@ export function renderHeader(container) {
   return header;
 }
 
+export function renderFooter() {
+  const footer = document.createElement('footer');
+  footer.className = 'site-footer';
+  footer.innerHTML = `
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="#/home">হোম (Home)</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 জার্মানি যাবো (German A1 Language Course). All rights reserved.
+      </div>
+    </div>
+  `;
+  return footer;
+}
+
 export function renderHome(appContainer) {
   appContainer.innerHTML = '';
   appContainer.appendChild(renderHeader(appContainer));
@@ -100,6 +117,8 @@ export function renderHome(appContainer) {
 
     grid.appendChild(card);
   });
+
+  appContainer.appendChild(renderFooter());
 }
 
 export function renderChapterDetail(appContainer, chapter, activeSection = 'overview') {
@@ -146,6 +165,8 @@ export function renderChapterDetail(appContainer, chapter, activeSection = 'over
 
   const tabContent = main.querySelector('#tab-content');
   renderTabSection(tabContent, chapter, activeSection);
+
+  appContainer.appendChild(renderFooter());
 }
 
 function renderTabSection(container, chapter, section) {
@@ -290,6 +311,8 @@ export function renderLogin(appContainer) {
     loginAsGuest();
     navigateTo('/home');
   };
+
+  appContainer.appendChild(renderFooter());
 }
 
 export function renderRegister(appContainer) {
@@ -342,6 +365,8 @@ export function renderRegister(appContainer) {
       errorDiv.textContent = err.message;
     }
   };
+
+  appContainer.appendChild(renderFooter());
 }
 
 export function renderNotFound(appContainer) {
@@ -361,4 +386,5 @@ export function renderNotFound(appContainer) {
   `;
 
   appContainer.appendChild(main);
+  appContainer.appendChild(renderFooter());
 }

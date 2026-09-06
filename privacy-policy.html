@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - জার্মানি যাবো (German A1 Language Course)</title>
+  <meta name="description" content="Privacy Policy for German A1 Language Course (জার্মানি যাবো) Android application and web platform.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    /* Privacy Policy Page Specific Styles */
+    .policy-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 48px 16px;
+    }
+
+    .policy-header {
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .policy-title {
+      font-size: 2rem;
+      color: var(--accent-yellow);
+      margin-bottom: 8px;
+      font-family: var(--font-latin);
+    }
+
+    .policy-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .policy-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+
+    .policy-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .policy-meta-item strong {
+      color: var(--text-primary);
+    }
+
+    .placeholder-box {
+      background: rgba(255, 212, 0, 0.08);
+      border: 1px dashed var(--accent-yellow);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: 12px 0;
+      color: var(--accent-yellow);
+      font-family: monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+
+    .warning-box {
+      background: rgba(230, 57, 70, 0.1);
+      border: 1px solid var(--accent-red);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin: 16px 0;
+      color: #FF8A8A;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .warning-box strong {
+      color: #FF5252;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .policy-section {
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .policy-section h2 {
+      font-size: 1.35rem;
+      color: var(--accent-yellow);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .policy-section h3 {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 16px 0 8px 0;
+    }
+
+    .policy-section p {
+      color: var(--text-primary);
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .policy-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-section ul, .policy-section ol {
+      margin: 8px 0 16px 24px;
+      color: var(--text-primary);
+    }
+
+    .policy-section li {
+      margin-bottom: 6px;
+      line-height: 1.6;
+      font-size: 0.96rem;
+    }
+
+    /* Data Table Styling */
+    .table-responsive {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+      min-width: 650px;
+    }
+
+    .data-table th {
+      background: #252525;
+      color: var(--accent-yellow);
+      padding: 12px 14px;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+      vertical-align: top;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .toc-card {
+      background: #161616;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .toc-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-yellow);
+      margin-bottom: 10px;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 8px;
+    }
+
+    .toc-list a {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-yellow);
+    }
+
+    /* Footer styling for static page */
+    .site-footer {
+      background-color: var(--surface-color);
+      border-top: 1px solid var(--border-color);
+      padding: 24px 16px;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .footer-container {
+      max-width: var(--max-width-desktop);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.9rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-yellow);
+    }
+
+    .footer-copy {
+      color: var(--text-disabled);
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Static Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html#/home" class="header-brand">
+        <img src="assets/images/logo.svg" alt="জার্মানি যাবো Logo" class="brand-logo" />
+        <div class="brand-text">
+          <span class="brand-title">জার্মানি যাবো</span>
+          <span class="brand-subtitle">German A1 Language Course</span>
+        </div>
+      </a>
+
+      <div class="header-auth-controls">
+        <a href="index.html#/home" class="btn btn-secondary btn-sm">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="policy-container">
+
+      <!-- Document Header -->
+      <div class="policy-header">
+        <h1 class="policy-title">Privacy Policy</h1>
+        <div class="policy-subtitle">জার্মানি যাবো - German A1 Language Course</div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px;">
+          This Privacy Policy describes how personal information is handled when you use the <strong>জার্মানি যাবো / German A1 Language Course</strong> mobile application (Package: <code>com.biswas.germana1</code>) and web platform.
+        </p>
+
+        <div class="policy-meta">
+          <div class="policy-meta-item">
+            <span>Effective Date:</span>
+            <strong>March 6, 2026</strong>
+          </div>
+          <div class="policy-meta-item">
+            <span>Last Updated:</span>
+            <strong>March 6, 2026</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table of Contents -->
+      <div class="toc-card">
+        <div class="toc-title">Table of Contents</div>
+        <ul class="toc-list">
+          <li><a href="#identity">1. Application Identity & Developer Info</a></li>
+          <li><a href="#data-collected">2. Information We Collect</a></li>
+          <li><a href="#data-not-collected">3. Information We Do Not Collect</a></li>
+          <li><a href="#authentication">4. Authentication & Guest Mode</a></li>
+          <li><a href="#advertising">5. Advertising (Google AdMob)</a></li>
+          <li><a href="#third-party-sdks">6. Third-Party Services & SDKs</a></li>
+          <li><a href="#local-storage">7. Local Device Storage</a></li>
+          <li><a href="#course-progress">8. Course Progress Handling</a></li>
+          <li><a href="#account-deletion">9. Account Deletion Notice</a></li>
+          <li><a href="#data-retention">10. Data Retention</a></li>
+          <li><a href="#data-deletion">11. Data Deletion Requests</a></li>
+          <li><a href="#data-sharing">12. Data Sharing & Processing</a></li>
+          <li><a href="#security">13. Data Security</a></li>
+          <li><a href="#children">14. Children's Privacy</a></li>
+          <li><a href="#international">15. International Data Processing</a></li>
+          <li><a href="#user-rights">16. Your Privacy Rights</a></li>
+          <li><a href="#changes">17. Changes to This Privacy Policy</a></li>
+          <li><a href="#contact">18. Contact Information</a></li>
+        </ul>
+      </div>
+
+      <!-- 1. Identity & Developer Info -->
+      <section id="identity" class="policy-section">
+        <h2>1. Application Identity & Developer Information</h2>
+        <p>This Privacy Policy applies to the following application:</p>
+        <ul>
+          <li><strong>Application Name:</strong> জার্মানি যাবো (German A1 Language Course)</li>
+          <li><strong>Package Identifier:</strong> <code>com.biswas.germana1</code></li>
+          <li><strong>Platform:</strong> Android App & Web Version</li>
+        </ul>
+        <p>Developer and Legal Entity Information:</p>
+        <div class="placeholder-box">
+          Developer / Legal Entity: [REPLACE WITH DEVELOPER NAME/ENTITY]
+        </div>
+        <p>
+          If you have questions regarding this privacy policy or your personal data, please contact us using the privacy contact details below.
+        </p>
+        <div class="placeholder-box">
+          Privacy Contact Email: [REPLACE WITH YOUR PRIVACY CONTACT EMAIL]
+        </div>
+      </section>
+
+      <!-- 2. Information We Collect -->
+      <section id="data-collected" class="policy-section">
+        <h2>2. Information We Collect</h2>
+        <p>
+          We collect and process only the data necessary to provide you with a functional language-learning experience, maintain user accounts, and support monetization through non-intrusive advertising.
+        </p>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Data Category</th>
+                <th>What We Collect</th>
+                <th>Why We Collect It</th>
+                <th>How It Is Used</th>
+                <th>Service / Provider</th>
+                <th>Retention</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Account Credentials</strong></td>
+                <td>Email address and password (hashed)</td>
+                <td>User account creation, authentication, and security</td>
+                <td>To log users in and secure account access</td>
+                <td>Firebase Authentication</td>
+                <td>Until account is deleted</td>
+              </tr>
+              <tr>
+                <td><strong>Google Account Info</strong></td>
+                <td>Email address, Display Name, User Identifier (UID)</td>
+                <td>Single Sign-In authentication</td>
+                <td>To verify identity via Google Sign-In</td>
+                <td>Firebase Auth / Google Sign-In</td>
+                <td>Until account is deleted or unlinked</td>
+              </tr>
+              <tr>
+                <td><strong>User Identifiers</strong></td>
+                <td>Firebase Unique User ID (UID)</td>
+                <td>Identify logged-in user session</td>
+                <td>Associate settings and login status</td>
+                <td>Firebase Authentication</td>
+                <td>Until account deletion</td>
+              </tr>
+              <tr>
+                <td><strong>Course Progress & Scores</strong></td>
+                <td>Completed chapters, exercise scores, last visited section</td>
+                <td>Learning progress tracking</td>
+                <td>To show lesson completion and score percentages</td>
+                <td>Stored locally on device (DataStore / localStorage)</td>
+                <td>Until local app data is cleared or uninstalled</td>
+              </tr>
+              <tr>
+                <td><strong>Device & Ad Identifiers</strong></td>
+                <td>Google Advertising ID (AAID), App Set ID, IP address (processed by Google)</td>
+                <td>Ad serving, frequency capping, and measurement</td>
+                <td>Deliver and analyze ad performance</td>
+                <td>Google AdMob / Google Play Services</td>
+                <td>Managed by Google per Google Privacy Policy</td>
+              </tr>
+              <tr>
+                <td><strong>App Diagnostics</strong></td>
+                <td>Ad loading state, ad interaction events, technical errors</td>
+                <td>Ad error diagnostics and performance monitoring</td>
+                <td>Troubleshoot ad delivery failures</td>
+                <td>Google AdMob SDK</td>
+                <td>Managed by Google per Google Privacy Policy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. Information We Do Not Collect -->
+      <section id="data-not-collected" class="policy-section">
+        <h2>3. Information We Do Not Collect</h2>
+        <p>
+          To protect user privacy, the application does <strong>NOT</strong> collect, request, or store any of the following sensitive information:
+        </p>
+        <ul>
+          <li><strong>Financial Information:</strong> Credit card numbers, bank account details, or payment transactions.</li>
+          <li><strong>Precise Location Data:</strong> Precise GPS coordinates or real-time location tracking.</li>
+          <li><strong>Contacts & Social Graphs:</strong> Phone address book or contacts list.</li>
+          <li><strong>Media & Files:</strong> Personal photos, videos, or files stored on your device.</li>
+          <li><strong>Microphone / Camera / Audio:</strong> Audio recordings, camera streams, or voice inputs.</li>
+          <li><strong>Health & Fitness:</strong> Any health, biometrics, or body sensor data.</li>
+        </ul>
+      </section>
+
+      <!-- 4. Authentication & Guest Mode -->
+      <section id="authentication" class="policy-section">
+        <h2>4. Authentication & Guest Mode</h2>
+        <p>
+          The application provides flexible access options to accommodate learners:
+        </p>
+        <h3>Email / Password Authentication</h3>
+        <p>
+          When you register with an email address and password, Firebase Authentication securely manages your user credentials. Passwords are password-hashed server-side by Firebase and are never stored in plain text or accessible by us.
+        </p>
+
+        <h3>Google Sign-In</h3>
+        <p>
+          If you choose to sign in using Google Sign-In, Firebase Authentication processes basic profile information made available by Google (such as your name, email address, and account ID). We do not request or receive full access to your Google account or Google Drive.
+        </p>
+
+        <h3>Guest Mode</h3>
+        <p>
+          Users may access the application using <strong>Guest Learner Mode</strong> without registering or creating a persistent server-side account. In Guest Mode, a temporary session identifier is generated locally, and learning progress is stored solely on your local device.
+        </p>
+      </section>
+
+      <!-- 5. Advertising (Google AdMob) -->
+      <section id="advertising" class="policy-section">
+        <h2>5. Monetization & Advertising (Google AdMob)</h2>
+        <p>
+          The Android application uses <strong>Google AdMob</strong> to display interstitial advertisements between lessons. This monetization helps keep the educational content freely accessible.
+        </p>
+        <p>
+          Google AdMob may collect and process device identifiers, such as the Google Advertising ID (AAID), App Set ID, IP address, and general device information to serve ads, limit ad frequency, prevent fraud, and measure ad performance.
+        </p>
+        <p>
+          Depending on your device configuration and regional regulations, AdMob may serve personalized or non-personalized advertisements.
+        </p>
+        <p>
+          For more information on how Google processes ad-related data, please visit official Google privacy disclosures:
+        </p>
+        <ul>
+          <li>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy & Terms Policy</a>
+          </li>
+          <li>
+            <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use our services</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 6. Third-Party Services & SDKs -->
+      <section id="third-party-sdks" class="policy-section">
+        <h2>6. Third-Party Services & SDKs</h2>
+        <p>
+          The application incorporates third-party Software Development Kits (SDKs) provided by Google. Each third-party service operates under its respective privacy terms:
+        </p>
+
+        <h3>1. Firebase Authentication</h3>
+        <ul>
+          <li><strong>Purpose:</strong> User sign-in, account creation, and session management.</li>
+          <li><strong>Data Processed:</strong> Email, password hash, display name, unique user ID (UID).</li>
+          <li><strong>Privacy Policy:</strong> <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase Privacy and Security</a></li>
+        </ul>
+
+        <h3>2. Google Mobile Ads (AdMob)</h3>
+        <ul>
+          <li><strong>Purpose:</strong> Serving interstitial advertisements and ad performance analytics.</li>
+          <li><strong>Data Processed:</strong> Advertising ID, App Set ID, IP address, ad interaction metrics.</li>
+          <li><strong>Privacy Policy:</strong> <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a></li>
+        </ul>
+
+        <h3>3. Google Play Services</h3>
+        <ul>
+          <li><strong>Purpose:</strong> Underlying Android framework utilities and device services.</li>
+          <li><strong>Data Processed:</strong> Device metadata, app runtime identifiers.</li>
+          <li><strong>Privacy Policy:</strong> <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Play Services Privacy</a></li>
+        </ul>
+      </section>
+
+      <!-- 7. Local Device Storage -->
+      <section id="local-storage" class="policy-section">
+        <h2>7. Local Device Storage</h2>
+        <p>
+          The application utilizes local storage mechanisms on your device:
+        </p>
+        <ul>
+          <li><strong>Android Application:</strong> Uses Android <code>SharedPreferences</code> and <code>DataStore</code> to store lesson completion state, quiz scores, sound preferences, and session tokens.</li>
+          <li><strong>Web Application:</strong> Uses browser <code>localStorage</code> (key: <code>germana1_user_data_v1</code>) to store offline chapter progress and preference settings.</li>
+        </ul>
+        <p>
+          Data stored in local device storage remains on your device and is not transmitted to external servers. You can clear this data at any time through your Android app settings ("Clear Data") or browser settings.
+        </p>
+      </section>
+
+      <!-- 8. Course Progress Handling -->
+      <section id="course-progress" class="policy-section">
+        <h2>8. Course Progress Handling</h2>
+        <p>
+          All learning progress—including completed chapters, exercise test scores, and last visited sections—is stored <strong>locally on your device</strong>.
+        </p>
+        <p>
+          Course progress is <strong>NOT synchronized across devices</strong> or stored on a remote cloud database. If you switch devices or uninstall the application, your local progress will be reset unless restored via local device backup mechanisms.
+        </p>
+      </section>
+
+      <!-- 9. Account Deletion Notice -->
+      <section id="account-deletion" class="policy-section">
+        <h2>9. Account Deletion</h2>
+
+        <div class="warning-box">
+          <strong>REQUIRED IMPLEMENTATION ITEM FOR GOOGLE PLAY COMPLIANCE:</strong>
+          ACCOUNT DELETION IMPLEMENTATION REQUIRED BEFORE FINAL GOOGLE PLAY SUBMISSION.
+          If the application enables account creation, Google Play policy requires both an in-app account deletion mechanism and a web-based account deletion request option.
+        </div>
+
+        <p>
+          Registered users have the right to request deletion of their account and associated authentication data at any time.
+        </p>
+        <p>
+          To submit an account deletion request, please use the account deletion contact link below:
+        </p>
+        <div class="placeholder-box">
+          Account Deletion Request: [REPLACE WITH ACTUAL ACCOUNT DELETION URL OR EMAIL]
+        </div>
+        <p>
+          When an account deletion request is processed:
+        </p>
+        <ul>
+          <li>Your user profile, email address, and Firebase Authentication UID will be permanently removed from Firebase Auth servers.</li>
+          <li>Local data stored on your device can be cleared by using the "Clear Storage / Data" option in your device settings or by uninstalling the application.</li>
+        </ul>
+      </section>
+
+      <!-- 10. Data Retention -->
+      <section id="data-retention" class="policy-section">
+        <h2>10. Data Retention</h2>
+        <p>
+          We adhere to minimal data retention practices:
+        </p>
+        <ul>
+          <li><strong>Account Information:</strong> Retained in Firebase Authentication as long as your user account remains active. Deleted upon receiving a validated account deletion request.</li>
+          <li><strong>Guest Sessions:</strong> Anonymous guest identifiers are kept locally on your device until local storage is cleared or the app is uninstalled.</li>
+          <li><strong>Local Course Progress:</strong> Saved on your device indefinitely until manually cleared or app uninstallation.</li>
+          <li><strong>Advertising & Diagnostic Data:</strong> Retained by Google AdMob according to Google's standard data retention schedules.</li>
+        </ul>
+      </section>
+
+      <!-- 11. Data Deletion Requests -->
+      <section id="data-deletion" class="policy-section">
+        <h2>11. Data Deletion</h2>
+        <p>
+          You have full control over data stored by the application:
+        </p>
+        <h3>Local Data Deletion</h3>
+        <p>
+          To delete all local progress, settings, and cached data:
+        </p>
+        <ul>
+          <li><strong>On Android:</strong> Navigate to Settings &gt; Apps &gt; জার্মানি যাবো &gt; Storage &gt; Clear Data.</li>
+          <li><strong>On Web:</strong> Clear browser local storage or site cookies for this domain.</li>
+        </ul>
+
+        <h3>Account Deletion</h3>
+        <p>
+          To request complete deletion of your registered Firebase account, contact us at the privacy email address or deletion portal specified in Section 9.
+        </p>
+      </section>
+
+      <!-- 12. Data Sharing & Processing -->
+      <section id="data-sharing" class="policy-section">
+        <h2>12. How We Share Information</h2>
+        <p>
+          <strong>We DO NOT sell, rent, or trade your personal information.</strong>
+        </p>
+        <p>
+          Information is shared only with third-party service providers acting on our behalf to deliver essential app functions:
+        </p>
+        <ul>
+          <li><strong>Google / Firebase:</strong> For user authentication and security enforcement.</li>
+          <li><strong>Google AdMob:</strong> For delivering, limiting, and measuring advertisements.</li>
+          <li><strong>Legal Requirements:</strong> We may disclose information if required by applicable law, regulation, or valid legal process.</li>
+        </ul>
+      </section>
+
+      <!-- 13. Data Security -->
+      <section id="security" class="policy-section">
+        <h2>13. Data Security</h2>
+        <p>
+          We take reasonable technical and organizational measures to protect information against unauthorized access, loss, misuse, or alteration:
+        </p>
+        <ul>
+          <li>All network communications between the app and Firebase or AdMob use encrypted Transport Layer Security (TLS/HTTPS).</li>
+          <li>User passwords are hashed and managed by Firebase Authentication; plaintext passwords are never stored or transmitted.</li>
+          <li>Access to developer service accounts is restricted using secure key management.</li>
+        </ul>
+        <p>
+          Please note that no method of electronic transmission or storage is 100% secure, and absolute security cannot be guaranteed.
+        </p>
+      </section>
+
+      <!-- 14. Children's Privacy -->
+      <section id="children" class="policy-section">
+        <h2>14. Children's Privacy</h2>
+        <p>
+          The application <strong>জার্মানি যাবো / German A1 Language Course</strong> is a general-audience educational tool intended for language learners.
+        </p>
+        <p>
+          The application is not directed specifically to children under the age of 13 (or 16 in certain jurisdictions), and we do not knowingly collect personal information from children. If you believe that a child has provided personal information through our app, please contact us immediately so we can promptly delete such information.
+        </p>
+      </section>
+
+      <!-- 15. International Data Processing -->
+      <section id="international" class="policy-section">
+        <h2>15. International Data Processing</h2>
+        <p>
+          Information processed by third-party services like Firebase and Google AdMob may be transferred to, stored, and processed on servers located in countries outside your country of residence (including the United States).
+        </p>
+        <p>
+          These third-party providers operate under international data protection mechanisms and standard contractual clauses compliant with applicable data privacy laws.
+        </p>
+      </section>
+
+      <!-- 16. Your Privacy Rights -->
+      <section id="user-rights" class="policy-section">
+        <h2>16. Your Privacy Rights</h2>
+        <p>
+          Depending on your geographic location and applicable laws (such as GDPR or local data protection statutes), you may have the following rights regarding your personal information:
+        </p>
+        <ul>
+          <li><strong>Right to Access:</strong> Request a copy of personal information held about you.</li>
+          <li><strong>Right to Rectification:</strong> Request correction of inaccurate personal data.</li>
+          <li><strong>Right to Erasure / Deletion:</strong> Request deletion of your user account and associated credentials.</li>
+          <li><strong>Right to Restrict Processing:</strong> Request restrictions on how your data is processed.</li>
+          <li><strong>Right to Withdraw Consent:</strong> Withdraw consent where processing is based on consent.</li>
+        </ul>
+        <p>
+          To exercise any of these rights, please contact us at the privacy email address provided below.
+        </p>
+      </section>
+
+      <!-- 17. Changes to Privacy Policy -->
+      <section id="changes" class="policy-section">
+        <h2>17. Changes to This Privacy Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time to reflect changes in application features, legal requirements, or third-party service policies.
+        </p>
+        <p>
+          When changes are made, the "Last Updated" date at the top of this document will be revised. We encourage you to review this Privacy Policy periodically.
+        </p>
+      </section>
+
+      <!-- 18. Contact Information -->
+      <section id="contact" class="policy-section">
+        <h2>18. Contact Information</h2>
+        <p>
+          If you have questions, feedback, or privacy concerns regarding this Privacy Policy or the <strong>জার্মানি যাবো / German A1 Language Course</strong> application, please contact us:
+        </p>
+        <div class="placeholder-box">
+          Privacy Contact Email: [REPLACE WITH YOUR PRIVACY CONTACT EMAIL]
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Static Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="index.html#/home">Home</a>
+        <a href="privacy-policy.html" style="color: var(--accent-yellow); font-weight: 600;">Privacy Policy</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 জার্মানি যাবো (German A1 Language Course). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
