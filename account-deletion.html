@@ -250,7 +250,7 @@
         </p>
 
         <div class="info-box">
-          <h3> What happens when you delete your account?</h3>
+          <h3>What happens when you delete your account?</h3>
           <ul>
             <li>Your Firebase Authentication credentials (Email, Password hash, Google OAuth binding) will be <strong>permanently deleted</strong>.</li>
             <li>All local study progress, scores, and preferences stored in your browser or device will be cleared.</li>
@@ -260,7 +260,6 @@
 
         <!-- Dynamic State Section -->
         <div id="deletion-state-container">
-          <!-- Will be rendered dynamically via JS -->
           <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
             Loading authentication state...
           </div>
@@ -292,7 +291,7 @@
     <div class="modal-card">
       <div class="modal-title">🔑 Re-authentication Required</div>
       <p style="color: var(--text-primary); font-size: 0.92rem; line-height: 1.5; margin-bottom: 16px;">
-        For security reasons, Firebase requires you to verify your password before deleting your account.
+        For security reasons, Firebase requires recent authentication before deleting your account. Please enter your password to proceed.
       </p>
       <div id="reauth-error" class="alert alert-danger" style="display:none; margin-bottom: 12px;"></div>
       <form id="form-reauth">
@@ -500,8 +499,8 @@
         showAlert('Your account has been successfully deleted.', 'success');
       } catch (err) {
         if (err.code === 'auth/requires-recent-login') {
-          if (currentUser.providerId === 'google.com') {
-            showAlert('Re-authenticating with Google...', 'danger');
+          if (currentUser && currentUser.providerId === 'google.com') {
+            showAlert('Recent login required. Re-authenticating with Google...', 'danger');
             try {
               await reauthenticateGoogleUser();
               await executeAccountDeletion();
