@@ -1,14 +1,106 @@
-// Authentication Management Service (Guest Mode & Local / Firebase Auth Fallback)
-import { loadStorage, saveStorage } from './storage.js';
+// Authentication Management Service (Firebase Auth & Local Storage Sync)
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInAnonymously,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  reauthenticateWithPopup
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+import { loadStorage, saveStorage, clearStorage } from './storage.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAEyecnow5wk7C9zfGuVB3D0kKr762Qv4I",
+  authDomain: "germanyjabo.firebaseapp.com",
+  projectId: "germanyjabo",
+  storageBucket: "germanyjabo.appspot.com",
+  messagingSenderId: "111352436164"
+};
+
+let app;
+let auth;
+let googleProvider;
+let firebaseInitialized = false;
+
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  googleProvider = new GoogleAuthProvider();
+  firebaseInitialized = true;
+} catch (e) {
+  console.warn('Firebase initialization failed or offline fallback:', e);
+}
 
 let authStateListeners = [];
+let currentFirebaseUser = null;
+
+if (firebaseInitialized && auth) {
+  onAuthStateChanged(auth, (user) => {
+    currentFirebaseUser = user;
+    const store = loadStorage();
+    if (user) {
+      const formattedUser = {
+        uid: user.uid,
+        displayName: user.displayName || (user.email ? user.email.split('@')[0] : 'Learner'),
+        email: user.email || '',
+        isAnonymous: user.isAnonymous,
+        isGuest: user.isAnonymous,
+        providerId: user.providerData && user.providerData.length > 0 ? user.providerData[0].providerId : (user.isAnonymous ? 'anonymous' : 'password')
+      };
+      store.auth = {
+        isLoggedIn: true,
+        user: formattedUser
+      };
+      saveStorage(store);
+      notifyListeners(formattedUser);
+    } else {
+      store.auth = {
+        isLoggedIn: false,
+        user: null
+      };
+      saveStorage(store);
+      const guestUser = {
+        uid: 'guest_user',
+        displayName: 'Guest Learner',
+        email: '',
+        isGuest: true
+      };
+      notifyListeners(guestUser);
+    }
+  });
+}
+
+export function getFirebaseAuthInstance() {
+  return auth;
+}
+
+export function getFirebaseUser() {
+  return currentFirebaseUser || (auth ? auth.currentUser : null);
+}
 
 export function getCurrentUser() {
+  if (currentFirebaseUser) {
+    return {
+      uid: currentFirebaseUser.uid,
+      displayName: currentFirebaseUser.displayName || (currentFirebaseUser.email ? currentFirebaseUser.email.split('@')[0] : 'Learner'),
+      email: currentFirebaseUser.email || '',
+      isAnonymous: currentFirebaseUser.isAnonymous,
+      isGuest: currentFirebaseUser.isAnonymous,
+      providerId: currentFirebaseUser.providerData && currentFirebaseUser.providerData.length > 0 ? currentFirebaseUser.providerData[0].providerId : (currentFirebaseUser.isAnonymous ? 'anonymous' : 'password')
+    };
+  }
   const store = loadStorage();
   if (store.auth && store.auth.isLoggedIn && store.auth.user) {
     return store.auth.user;
   }
-  // Default to Guest user if none
   return {
     uid: 'guest_user',
     displayName: 'Guest Learner',
@@ -29,7 +121,15 @@ function notifyListeners(user) {
   authStateListeners.forEach(cb => cb(user));
 }
 
-export function loginAsGuest() {
+export async function loginAsGuest() {
+  if (firebaseInitialized && auth) {
+    try {
+      const result = await signInAnonymously(auth);
+      return result.user;
+    } catch (e) {
+      console.warn('Firebase Anonymous auth failed, using local guest fallback:', e);
+    }
+  }
   const guestUser = {
     uid: 'guest_' + Date.now(),
     displayName: 'Guest Learner',
@@ -46,37 +146,72 @@ export function loginAsGuest() {
   return guestUser;
 }
 
-export function loginWithEmail(email, password) {
+export async function loginWithEmail(email, password) {
   if (!email || !password) {
     throw new Error('Please enter both email and password.');
   }
-  const user = {
-    uid: 'user_' + Date.now(),
-    displayName: email.split('@')[0],
-    email: email,
-    isGuest: false
-  };
-  const store = loadStorage();
-  store.auth = {
-    isLoggedIn: true,
-    user: user
-  };
-  saveStorage(store);
-  notifyListeners(user);
-  return user;
+  if (firebaseInitialized && auth) {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result.user;
+    } catch (err) {
+      throw formatAuthError(err);
+    }
+  } else {
+    const user = {
+      uid: 'user_' + Date.now(),
+      displayName: email.split('@')[0],
+      email: email,
+      isGuest: false
+    };
+    const store = loadStorage();
+    store.auth = { isLoggedIn: true, user: user };
+    saveStorage(store);
+    notifyListeners(user);
+    return user;
+  }
 }
 
-export function registerWithEmail(email, password) {
+export async function registerWithEmail(email, password) {
   if (!email || !password) {
     throw new Error('Please enter email and password.');
   }
   if (password.length < 6) {
     throw new Error('Password must be at least 6 characters long.');
   }
-  return loginWithEmail(email, password);
+  if (firebaseInitialized && auth) {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      return result.user;
+    } catch (err) {
+      throw formatAuthError(err);
+    }
+  } else {
+    return loginWithEmail(email, password);
+  }
 }
 
-export function logoutUser() {
+export async function loginWithGoogle() {
+  if (firebaseInitialized && auth) {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      return result.user;
+    } catch (err) {
+      throw formatAuthError(err);
+    }
+  } else {
+    throw new Error('Google Sign-In is unavailable without Firebase connection.');
+  }
+}
+
+export async function logoutUser() {
+  if (firebaseInitialized && auth) {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error('Error signing out:', e);
+    }
+  }
   const store = loadStorage();
   store.auth = {
     isLoggedIn: false,
@@ -85,4 +220,78 @@ export function logoutUser() {
   saveStorage(store);
   const guestUser = getCurrentUser();
   notifyListeners(guestUser);
+}
+
+export async function deleteCurrentUserAccount() {
+  const user = auth ? auth.currentUser : null;
+  if (!user) {
+    throw new Error('No authenticated user found to delete.');
+  }
+  try {
+    await deleteUser(user);
+    clearStorage();
+    const guestUser = getCurrentUser();
+    notifyListeners(guestUser);
+  } catch (err) {
+    throw formatAuthError(err);
+  }
+}
+
+export async function reauthenticateEmailUser(password) {
+  const user = auth ? auth.currentUser : null;
+  if (!user || !user.email) {
+    throw new Error('No email user session active for re-authentication.');
+  }
+  try {
+    const credential = EmailAuthProvider.credential(user.email, password);
+    await reauthenticateWithCredential(user, credential);
+  } catch (err) {
+    throw formatAuthError(err);
+  }
+}
+
+export async function reauthenticateGoogleUser() {
+  const user = auth ? auth.currentUser : null;
+  if (!user) {
+    throw new Error('No user session active for Google re-authentication.');
+  }
+  try {
+    await reauthenticateWithPopup(user, googleProvider);
+  } catch (err) {
+    throw formatAuthError(err);
+  }
+}
+
+export function formatAuthError(err) {
+  if (!err) return new Error('An unknown error occurred.');
+  const code = err.code || '';
+  const message = err.message || '';
+
+  if (code === 'auth/requires-recent-login') {
+    const error = new Error('This operation is sensitive and requires recent authentication. Please log in again before retrying.');
+    error.code = code;
+    return error;
+  }
+  if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+    return new Error('Incorrect password. Please try again.');
+  }
+  if (code === 'auth/user-not-found') {
+    return new Error('No account found matching these credentials.');
+  }
+  if (code === 'auth/email-already-in-use') {
+    return new Error('An account with this email address already exists.');
+  }
+  if (code === 'auth/invalid-email') {
+    return new Error('Please enter a valid email address.');
+  }
+  if (code === 'auth/weak-password') {
+    return new Error('Password must be at least 6 characters long.');
+  }
+  if (code === 'auth/popup-closed-by-user') {
+    return new Error('Sign-in popup was closed before completing authentication.');
+  }
+  if (code === 'auth/network-request-failed') {
+    return new Error('Network error. Please check your internet connection.');
+  }
+  return new Error(message || 'Authentication error occurred.');
 }

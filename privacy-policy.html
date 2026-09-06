@@ -65,33 +65,14 @@
       color: var(--text-primary);
     }
 
-    .placeholder-box {
-      background: rgba(255, 212, 0, 0.08);
-      border: 1px dashed var(--accent-yellow);
+    .info-card {
+      background: #161616;
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 14px 18px;
       margin: 12px 0;
-      color: var(--accent-yellow);
-      font-family: monospace;
-      font-size: 0.9rem;
-      word-break: break-all;
-    }
-
-    .warning-box {
-      background: rgba(230, 57, 70, 0.1);
-      border: 1px solid var(--accent-red);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      margin: 16px 0;
-      color: #FF8A8A;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .warning-box strong {
-      color: #FF5252;
-      display: block;
-      margin-bottom: 4px;
+      color: var(--text-primary);
+      font-size: 0.92rem;
     }
 
     .policy-section {
@@ -282,7 +263,7 @@
         <h1 class="policy-title">Privacy Policy</h1>
         <div class="policy-subtitle">জার্মানি যাবো - German A1 Language Course</div>
         <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px;">
-          This Privacy Policy describes how personal information is handled when you use the <strong>জার্মানি যাবো / German A1 Language Course</strong> mobile application (Package: <code>com.biswas.germana1</code>) and web platform.
+          This Privacy Policy describes how personal information is handled when you use the <strong>জার্মানি যাবো / German A1 Language Course</strong> mobile application (Package: <code>blog.biswas.video.germanyjabo</code>) and web platform.
         </p>
 
         <div class="policy-meta">
@@ -328,17 +309,17 @@
         <p>This Privacy Policy applies to the following application:</p>
         <ul>
           <li><strong>Application Name:</strong> জার্মানি যাবো (German A1 Language Course)</li>
-          <li><strong>Package Identifier:</strong> <code>com.biswas.germana1</code></li>
+          <li><strong>Package Identifier:</strong> <code>blog.biswas.video.germanyjabo</code></li>
           <li><strong>Platform:</strong> Android App & Web Version</li>
         </ul>
         <p>Developer and Legal Entity Information:</p>
-        <div class="placeholder-box">
+        <div class="info-card">
           Developer / Legal Entity: Meshstocks
         </div>
         <p>
           If you have questions regarding this privacy policy or your personal data, please contact us using the privacy contact details below.
         </p>
-        <div class="placeholder-box">
+        <div class="info-card">
           Privacy Contact Email: meshstocks@gmail.com
         </div>
       </section>
@@ -538,28 +519,21 @@
       <!-- 9. Account Deletion Notice -->
       <section id="account-deletion" class="policy-section">
         <h2>9. Account Deletion</h2>
-
-        <div class="warning-box">
-          <strong>REQUIRED IMPLEMENTATION ITEM FOR GOOGLE PLAY COMPLIANCE:</strong>
-          ACCOUNT DELETION IMPLEMENTATION REQUIRED BEFORE FINAL GOOGLE PLAY SUBMISSION.
-          If the application enables account creation, Google Play policy requires both an in-app account deletion mechanism and a web-based account deletion request option.
-        </div>
-
         <p>
-          Registered users have the right to request deletion of their account and associated authentication data at any time.
+          Registered users have the right to request or perform complete deletion of their account and associated authentication credentials at any time.
         </p>
         <p>
-          To submit an account deletion request, please use the account deletion contact link below:
+          You can delete your account directly through our self-service web tool:
         </p>
-        <div class="placeholder-box">
-          Account Deletion Request: [REPLACE WITH ACTUAL ACCOUNT DELETION URL OR EMAIL]
+        <div class="info-card">
+          Direct Account Deletion Portal: <a href="account-deletion.html" style="color: var(--accent-yellow); font-weight: 600;">account-deletion.html</a>
         </div>
         <p>
-          When an account deletion request is processed:
+          When you delete your account through this portal:
         </p>
         <ul>
-          <li>Your user profile, email address, and Firebase Authentication UID will be permanently removed from Firebase Auth servers.</li>
-          <li>Local data stored on your device can be cleared by using the "Clear Storage / Data" option in your device settings or by uninstalling the application.</li>
+          <li>Your Firebase Authentication profile, email address, password hash, and unique user ID (UID) are permanently removed from Firebase servers.</li>
+          <li>All locally stored progress, test scores, and application settings on your browser or device are cleared.</li>
         </ul>
       </section>
 
@@ -570,7 +544,7 @@
           We adhere to minimal data retention practices:
         </p>
         <ul>
-          <li><strong>Account Information:</strong> Retained in Firebase Authentication as long as your user account remains active. Deleted upon receiving a validated account deletion request.</li>
+          <li><strong>Account Information:</strong> Retained in Firebase Authentication as long as your user account remains active. Permanently deleted immediately upon user account deletion.</li>
           <li><strong>Guest Sessions:</strong> Anonymous guest identifiers are kept locally on your device until local storage is cleared or the app is uninstalled.</li>
           <li><strong>Local Course Progress:</strong> Saved on your device indefinitely until manually cleared or app uninstallation.</li>
           <li><strong>Advertising & Diagnostic Data:</strong> Retained by Google AdMob and Google AdSense according to Google's standard data retention schedules.</li>
@@ -583,19 +557,19 @@
         <p>
           You have full control over data stored by the application:
         </p>
-        <h3>Local Data Deletion</h3>
+        <h3>Self-Service Account & Data Deletion</h3>
         <p>
-          To delete all local progress, settings, and cached data:
+          To permanently delete your Firebase account and wipe local device data, visit our web account deletion resource at <a href="account-deletion.html" style="color: var(--accent-yellow);">account-deletion.html</a> and log in to confirm deletion.
+        </p>
+
+        <h3>Local Data Only</h3>
+        <p>
+          To clear local progress without deleting your registered Firebase account:
         </p>
         <ul>
           <li><strong>On Android:</strong> Navigate to Settings &gt; Apps &gt; জার্মানি যাবো &gt; Storage &gt; Clear Data.</li>
           <li><strong>On Web:</strong> Clear browser local storage or site cookies for this domain.</li>
         </ul>
-
-        <h3>Account Deletion</h3>
-        <p>
-          To request complete deletion of your registered Firebase account, contact us at the privacy email address or deletion portal specified in Section 9.
-        </p>
       </section>
 
       <!-- 12. Data Sharing & Processing -->
@@ -687,8 +661,8 @@
         <p>
           If you have questions, feedback, or privacy concerns regarding this Privacy Policy or the <strong>জার্মানি যাবো / German A1 Language Course</strong> application, please contact us:
         </p>
-        <div class="placeholder-box">
-          Privacy Contact Email: [REPLACE WITH YOUR PRIVACY CONTACT EMAIL]
+        <div class="info-card">
+          Privacy Contact Email: meshstocks@gmail.com
         </div>
       </section>
 
@@ -701,6 +675,7 @@
       <div class="footer-links">
         <a href="index.html#/home">Home</a>
         <a href="privacy-policy.html" style="color: var(--accent-yellow); font-weight: 600;">Privacy Policy</a>
+        <a href="account-deletion.html">Account Deletion</a>
       </div>
       <div class="footer-copy">
         &copy; 2026 জার্মানি যাবো (German A1 Language Course). All rights reserved.
