@@ -1,0 +1,76 @@
+/* Root Variables & Reset - German A1 Web App */
+:root {
+  --bg-color: #101010;
+  --surface-color: #1E1E1E;
+  --surface-hover: #2A2A2A;
+  --text-primary: #F5F5F5;
+  --text-secondary: #BDBDBD;
+  --text-disabled: #666666;
+  --accent-yellow: #FFD400;
+  --text-on-yellow: #1A1A1A;
+  --accent-red: #E63946;
+  --success-color: #2E7D32;
+  --border-color: #333333;
+
+  --font-bengali: 'Noto Sans Bengali', sans-serif;
+  --font-latin: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  --max-width-mobile: 480px;
+  --max-width-tablet: 768px;
+  --max-width-desktop: 1024px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-bengali), var(--font-latin);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+a {
+  color: var(--accent-yellow);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Base Layout Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width-desktop);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 16px;
+  padding-bottom: 32px;
+}

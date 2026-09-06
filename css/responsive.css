@@ -1,0 +1,82 @@
+/* Responsive Breakpoints & Adaptations */
+
+/* Mobile Phones (Up to 480px) */
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 12px;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .chapter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-btn {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+
+  .dialogue-bubble {
+    max-width: 95%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Tablets (768px and up) */
+@media (min-width: 768px) {
+  .chapter-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .main-content {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+
+  .btn {
+    width: auto;
+  }
+}
+
+/* Desktop & Laptops (1024px and up) */
+@media (min-width: 1024px) {
+  .chapter-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .header-container {
+    height: 72px;
+  }
+
+  .brand-title {
+    font-size: 1.35rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .brand-logo {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Large Screens (1440px and up) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1200px;
+  }
+}
