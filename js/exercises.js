@@ -1,5 +1,6 @@
 // Data-driven Exercise Engine
 import { saveExerciseScore } from './progress.js';
+import { renderAdUnit } from './ads.js';
 
 let currentExercises = [];
 let currentChapterId = null;
@@ -126,8 +127,15 @@ function renderExerciseResults(container) {
         <button id="btn-retry-ex" class="btn btn-secondary">পুনরায় চেষ্টা করুন</button>
         <a href="#/home" class="btn btn-primary">হোম পেজে ফিরুন</a>
       </div>
+
+      <div id="exercise-results-ad-slot" style="margin-top: 24px;"></div>
     </div>
   `;
+
+  const adSlot = container.querySelector('#exercise-results-ad-slot');
+  if (adSlot) {
+    renderAdUnit(adSlot);
+  }
 
   container.querySelector('#btn-retry-ex').onclick = () => {
     currentIndex = 0;
