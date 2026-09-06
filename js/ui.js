@@ -50,6 +50,7 @@ export function renderFooter() {
       <div class="footer-links">
         <a href="#/home">হোম (Home)</a>
         <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="account-deletion.html">Account Deletion</a>
       </div>
       <div class="footer-copy">
         &copy; 2026 জার্মানি যাবো (German A1 Language Course). All rights reserved.
