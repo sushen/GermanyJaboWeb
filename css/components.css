@@ -474,3 +474,21 @@
   color: var(--text-disabled);
   font-size: 0.82rem;
 }
+
+/* Ad Placement Wrapper */
+.ad-container {
+  width: 100%;
+  margin: 20px 0;
+  padding: 12px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.ad-container ins.adsbygoogle {
+  margin: 0 auto;
+}

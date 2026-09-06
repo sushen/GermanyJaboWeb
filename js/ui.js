@@ -4,6 +4,7 @@ import { getCurrentUser, logoutUser, loginAsGuest, loginWithEmail, registerWithE
 import { getProgress, getOverallProgressPercent } from './progress.js';
 import { renderExerciseRunner } from './exercises.js';
 import { navigateTo } from './router.js';
+import { renderAdUnit } from './ads.js';
 
 export function renderHeader(container) {
   const user = getCurrentUser();
@@ -84,12 +85,20 @@ export function renderHome(appContainer) {
       </div>
     </div>
 
+    <!-- Ad Placement on Home -->
+    <div id="home-ad-slot"></div>
+
     <!-- Chapter Grid -->
     <h2 style="font-size: 1.3rem; margin-top: 28px; margin-bottom: 12px; color: var(--text-primary);">অধ্যায়সমূহ (12 Chapters)</h2>
     <div class="chapter-grid" id="chapter-list"></div>
   `;
 
   appContainer.appendChild(main);
+
+  const homeAdSlot = main.querySelector('#home-ad-slot');
+  if (homeAdSlot) {
+    renderAdUnit(homeAdSlot);
+  }
 
   const grid = main.querySelector('#chapter-list');
   const userProgress = getProgress();
@@ -151,9 +160,17 @@ export function renderChapterDetail(appContainer, chapter, activeSection = 'over
       </nav>
       <div id="tab-content" style="padding: 20px;"></div>
     </div>
+
+    <!-- Ad Placement on Chapter Page -->
+    <div id="chapter-ad-slot"></div>
   `;
 
   appContainer.appendChild(main);
+
+  const chapterAdSlot = main.querySelector('#chapter-ad-slot');
+  if (chapterAdSlot) {
+    renderAdUnit(chapterAdSlot);
+  }
 
   const tabBtns = main.querySelectorAll('.tab-btn');
   tabBtns.forEach((btn) => {
