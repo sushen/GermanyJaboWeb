@@ -1,43 +1,19 @@
 // Authentication Management Service (Firebase Auth & Local Storage Sync)
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import {
-  getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInAnonymously,
   signInWithPopup,
-  GoogleAuthProvider,
   signOut,
   deleteUser,
   EmailAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
 
+import { auth, googleProvider, firebaseInitialized } from './firebase.js';
 import { loadStorage, saveStorage, clearStorage } from './storage.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAEyecnow5wk7C9zfGuVB3D0kKr762Qv4I",
-  authDomain: "germanyjabo.firebaseapp.com",
-  projectId: "germanyjabo",
-  storageBucket: "germanyjabo.appspot.com",
-  messagingSenderId: "111352436164"
-};
-
-let app;
-let auth;
-let googleProvider;
-let firebaseInitialized = false;
-
-try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  googleProvider = new GoogleAuthProvider();
-  firebaseInitialized = true;
-} catch (e) {
-  console.warn('Firebase initialization failed or offline fallback:', e);
-}
 
 let authStateListeners = [];
 let currentFirebaseUser = null;
@@ -148,7 +124,7 @@ export async function loginAsGuest() {
 
 export async function loginWithEmail(email, password) {
   if (!email || !password) {
-    throw new Error('Please enter both email and password.');
+    throw new Error('Please enter both email address and password.');
   }
   if (firebaseInitialized && auth) {
     try {
@@ -174,7 +150,7 @@ export async function loginWithEmail(email, password) {
 
 export async function registerWithEmail(email, password) {
   if (!email || !password) {
-    throw new Error('Please enter email and password.');
+    throw new Error('Please enter email address and password.');
   }
   if (password.length < 6) {
     throw new Error('Password must be at least 6 characters long.');
@@ -192,7 +168,7 @@ export async function registerWithEmail(email, password) {
 }
 
 export async function loginWithGoogle() {
-  if (firebaseInitialized && auth) {
+  if (firebaseInitialized && auth && googleProvider) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       return result.user;
@@ -200,7 +176,7 @@ export async function loginWithGoogle() {
       throw formatAuthError(err);
     }
   } else {
-    throw new Error('Google Sign-In is unavailable without Firebase connection.');
+    throw new Error('Google Sign-In is unavailable without an active Firebase Auth connection.');
   }
 }
 
@@ -225,7 +201,7 @@ export async function logoutUser() {
 export async function deleteCurrentUserAccount() {
   const user = auth ? auth.currentUser : null;
   if (!user) {
-    throw new Error('No authenticated user found to delete.');
+    throw new Error('No active user session found to delete.');
   }
   try {
     await deleteUser(user);
@@ -240,7 +216,7 @@ export async function deleteCurrentUserAccount() {
 export async function reauthenticateEmailUser(password) {
   const user = auth ? auth.currentUser : null;
   if (!user || !user.email) {
-    throw new Error('No email user session active for re-authentication.');
+    throw new Error('No active email user session found for re-authentication.');
   }
   try {
     const credential = EmailAuthProvider.credential(user.email, password);
@@ -253,7 +229,7 @@ export async function reauthenticateEmailUser(password) {
 export async function reauthenticateGoogleUser() {
   const user = auth ? auth.currentUser : null;
   if (!user) {
-    throw new Error('No user session active for Google re-authentication.');
+    throw new Error('No active user session found for Google re-authentication.');
   }
   try {
     await reauthenticateWithPopup(user, googleProvider);
@@ -268,30 +244,56 @@ export function formatAuthError(err) {
   const message = err.message || '';
 
   if (code === 'auth/requires-recent-login') {
-    const error = new Error('This operation is sensitive and requires recent authentication. Please log in again before retrying.');
+    const error = new Error('This sensitive operation requires recent authentication. Please sign in again to verify account ownership.');
     error.code = code;
     return error;
   }
   if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
-    return new Error('Incorrect password. Please try again.');
+    const error = new Error('Incorrect credentials or password provided. Please try again.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/user-not-found') {
-    return new Error('No account found matching these credentials.');
+    const error = new Error('No account found matching these credentials.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/email-already-in-use') {
-    return new Error('An account with this email address already exists.');
+    const error = new Error('An account with this email address already exists.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/invalid-email') {
-    return new Error('Please enter a valid email address.');
+    const error = new Error('Please enter a valid email address.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/weak-password') {
-    return new Error('Password must be at least 6 characters long.');
+    const error = new Error('Password must be at least 6 characters long.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/popup-closed-by-user') {
-    return new Error('Sign-in popup was closed before completing authentication.');
+    const error = new Error('Authentication popup was closed before completion. Please try again.');
+    error.code = code;
+    return error;
+  }
+  if (code === 'auth/popup-blocked') {
+    const error = new Error('Sign-in popup was blocked by your browser. Please allow popups for this site.');
+    error.code = code;
+    return error;
   }
   if (code === 'auth/network-request-failed') {
-    return new Error('Network error. Please check your internet connection.');
+    const error = new Error('Network error. Please check your internet connection and try again.');
+    error.code = code;
+    return error;
   }
-  return new Error(message || 'Authentication error occurred.');
+  if (code === 'auth/unauthorized-domain') {
+    const error = new Error('This domain is not authorized for Firebase Authentication in the Firebase Console.');
+    error.code = code;
+    return error;
+  }
+  const fallbackError = new Error(message || 'Authentication error occurred.');
+  fallbackError.code = code;
+  return fallbackError;
 }
