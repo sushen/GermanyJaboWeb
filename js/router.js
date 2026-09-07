@@ -1,6 +1,14 @@
 // Hash Router for Static Web Application
 import { getChapterById } from '../data/index.js';
-import { renderHome, renderChapterDetail, renderLogin, renderRegister, renderNotFound } from './ui.js';
+import {
+  renderHome,
+  renderChapterDetail,
+  renderLogin,
+  renderRegister,
+  renderProfile,
+  renderSuperAdminAdSense,
+  renderNotFound
+} from './ui.js';
 import { saveLastVisited } from './progress.js';
 
 export function parseHashRoute() {
@@ -19,6 +27,15 @@ export function parseHashRoute() {
     return { route: 'register' };
   }
 
+  if (parts[0] === 'profile') {
+    return { route: 'profile' };
+  }
+
+  if (parts[0] === 'super-admin') {
+    const subRoute = parts[1] || 'adsense';
+    return { route: 'super-admin', subRoute };
+  }
+
   if (parts[0] === 'chapter' && parts[1]) {
     const chapterId = parseInt(parts[1], 10);
     const section = parts[2] || 'overview';
@@ -28,7 +45,7 @@ export function parseHashRoute() {
   return { route: 'not-found' };
 }
 
-export function handleRoute() {
+export async function handleRoute() {
   const routeData = parseHashRoute();
   const appContainer = document.getElementById('app');
   if (!appContainer) return;
@@ -44,6 +61,14 @@ export function handleRoute() {
 
     case 'register':
       renderRegister(appContainer);
+      break;
+
+    case 'profile':
+      await renderProfile(appContainer);
+      break;
+
+    case 'super-admin':
+      await renderSuperAdminAdSense(appContainer);
       break;
 
     case 'chapter':
