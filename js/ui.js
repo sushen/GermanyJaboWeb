@@ -357,13 +357,13 @@ export async function renderProfile(appContainer) {
     <!-- Conditional Super Admin Panel Section -->
     ${isSuperAdmin ? `
     <div class="card" style="margin-bottom: 20px; border: 1px solid rgba(230, 57, 70, 0.4); background: rgba(230, 57, 70, 0.04);">
-      <h2 style="font-size: 1.15rem; color: #FF8A8A; margin-bottom: 8px;">🛡️ Super Admin Control Panel</h2>
-      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
-        As an authorized Super Admin, you can manage web advertising configuration dynamically via Firestore.
-      </p>
-      <a href="#/super-admin/adsense" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
-        ⚙️ Manage AdSense Settings
-      </a>
+      <h2 style="font-size: 1.15rem; color: #FF8A8A; margin-bottom: 8px;">Super Admin</h2>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+        <a href="#/superadmin/adsense" style="padding: 12px; background: #161616; border-radius: 6px; color: var(--text-primary); text-decoration: none; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color);">
+          <span>⚙️ AdSense Settings</span>
+          <span style="color: var(--text-secondary);">→</span>
+        </a>
+      </div>
     </div>
     ` : ''}
 
@@ -432,11 +432,11 @@ export async function renderSuperAdminAdSense(appContainer) {
   if (!isSuperAdmin) {
     main.innerHTML = `
       <div class="card" style="text-align: center; padding: 40px 20px; margin-top: 40px; border: 1px solid var(--accent-red);">
-        <h1 style="color: var(--accent-red); font-size: 2rem; margin-bottom: 12px;">🚫 Access Denied</h1>
+        <h1 style="color: var(--accent-red); font-size: 1.8rem; margin-bottom: 12px;">অ্যাক্সেস অনুমোদিত নয়</h1>
         <p style="color: var(--text-primary); margin-bottom: 20px;">
-          You do not have Super Admin permissions to access advertising configuration.
+          আপনার সুপার অ্যাডমিন (Super Admin) অ্যাক্সেস অনুমতি নেই।
         </p>
-        <a href="#/home" class="btn btn-primary">Return to Home</a>
+        <a href="#/profile" class="btn btn-primary">প্রোফাইলে ফিরে যান</a>
       </div>
     `;
     appContainer.appendChild(main);
@@ -446,98 +446,76 @@ export async function renderSuperAdminAdSense(appContainer) {
 
   const currentConfig = getAdConfig();
   const webConfig = currentConfig.web || {};
+  const isEnabled = currentConfig.enabled !== false;
+  const lastUpdatedText = currentConfig.updatedAt ? new Date(currentConfig.updatedAt).toLocaleString() : 'N/A';
 
   main.innerHTML = `
-    <div style="margin-top: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-      <a href="#/profile" class="nav-back-btn" style="display: inline-flex;">← Back to Profile</a>
-      <span style="font-size: 0.8rem; background: rgba(230, 57, 70, 0.2); color: #FF8A8A; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--accent-red);">
-        🛡️ Super Admin Access
-      </span>
+    <div style="margin-top: 12px; margin-bottom: 16px;">
+      <a href="#/profile" class="nav-back-btn" style="display: inline-flex;">← Profile-এ ফিরুন</a>
     </div>
 
     <div class="card" style="margin-bottom: 24px;">
-      <h1 style="font-size: 1.5rem; color: var(--accent-yellow); margin-bottom: 6px;">AdSense Settings</h1>
-      <p style="color: var(--text-secondary); font-size: 0.92rem;">
-        GUI-based advertising management panel for Web Google AdSense. Changes are published to Firestore without needing code deployments.
-      </p>
+      <h1 style="font-size: 1.5rem; color: var(--accent-yellow); margin-bottom: 16px;">Google AdSense Settings</h1>
 
-      <div id="admin-status-alert" style="display: none; padding: 12px 16px; border-radius: 6px; font-size: 0.9rem; margin-top: 16px;"></div>
+      <div id="admin-status-alert" style="display: none; padding: 12px 16px; border-radius: 6px; font-size: 0.9rem; margin-bottom: 16px;"></div>
 
-      <form id="form-adsense-settings" style="margin-top: 24px;">
-        <!-- AdSense Status: ON / OFF -->
-        <div style="background: #161616; padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-          <label style="display: block; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
-            📢 AdSense Status (Ads ON / OFF)
-          </label>
+      <form id="form-adsense-settings">
+        <!-- Status Toggle -->
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">Status:</label>
           <div style="display: flex; gap: 16px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary);">
-              <input type="radio" name="ads_status" value="on" ${currentConfig.enabled !== false ? 'checked' : ''} />
-              <span>ON (Ads Enabled)</span>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-primary);">
+              <input type="radio" name="ads_status" value="on" ${isEnabled ? 'checked' : ''} />
+              <span>ON</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary);">
-              <input type="radio" name="ads_status" value="off" ${currentConfig.enabled === false ? 'checked' : ''} />
-              <span>OFF (Ads Disabled)</span>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-primary);">
+              <input type="radio" name="ads_status" value="off" ${!isEnabled ? 'checked' : ''} />
+              <span>OFF</span>
             </label>
           </div>
         </div>
 
-        <!-- Ad Mode: TEST / PRODUCTION -->
-        <div style="background: #161616; padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-          <label style="display: block; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
-            ⚙️ Ad Mode (TEST vs PRODUCTION)
-          </label>
-          <div style="display: flex; gap: 16px; margin-bottom: 12px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary);">
-              <input type="radio" name="ad_mode" value="test" ${webConfig.mode === 'test' ? 'checked' : ''} />
-              <span>TEST / Development Mode</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary);">
-              <input type="radio" name="ad_mode" value="production" ${webConfig.mode !== 'test' ? 'checked' : ''} />
-              <span>PRODUCTION Mode</span>
-            </label>
-          </div>
+        <!-- Mode Select -->
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">Mode:</label>
+          <select id="select-ad-mode" class="input-exercise" style="margin-bottom: 0; background: #161616; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; width: 100%;">
+            <option value="production" ${webConfig.mode !== 'test' ? 'selected' : ''}>Production</option>
+            <option value="test" ${webConfig.mode === 'test' ? 'selected' : ''}>Test / Development</option>
+          </select>
+        </div>
 
-          <!-- Mode Explanation -->
-          <div style="background: rgba(255, 212, 0, 0.08); border: 1px solid rgba(255, 212, 0, 0.25); padding: 12px; border-radius: 6px; font-size: 0.85rem; color: var(--text-primary); line-height: 1.5;">
-            <strong>ℹ️ Safe AdSense Mode Explanation:</strong><br/>
-            Unlike Android AdMob, Google AdSense requires safe development handling. In <strong>TEST mode</strong>, the app displays a lightweight test layout verification placeholder to prevent accidental invalid ad impressions or clicks. In <strong>PRODUCTION mode</strong>, real configured AdSense ad slots are served.
+        <!-- Provider Read-only -->
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">Provider:</label>
+          <div style="padding: 10px 12px; background: #161616; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary); font-size: 0.95rem;">
+            Google AdSense
           </div>
         </div>
 
-        <!-- Production AdSense Configuration -->
-        <div style="background: #161616; padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 24px;">
-          <h3 style="font-size: 1rem; color: var(--accent-yellow); margin-bottom: 14px;">
-            📋 Production AdSense Configuration
-          </h3>
-
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 6px;">
-              Publisher ID (data-ad-client)
-            </label>
-            <input type="text" id="input-publisher-id" class="input-exercise" style="margin-bottom: 0;" required value="${webConfig.publisherId || 'ca-pub-2296246438593583'}" placeholder="ca-pub-XXXXXXXXXXXXXXXX" />
-          </div>
-
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 6px;">
-              Ad Slot ID (data-ad-slot)
-            </label>
-            <input type="text" id="input-ad-slot" class="input-exercise" style="margin-bottom: 0;" required value="${webConfig.adSlot || '7321969663'}" placeholder="7321969663" />
-          </div>
+        <!-- Publisher ID Input -->
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">Publisher ID:</label>
+          <input type="text" id="input-publisher-id" class="input-exercise" style="margin-bottom: 0;" required value="${webConfig.publisherId || 'ca-pub-2296246438593583'}" placeholder="ca-pub-XXXXXXXXXXXXXXXX" />
         </div>
 
-        <!-- Production Warnings (Visible to Super Admin only) -->
-        <div style="background: rgba(230, 57, 70, 0.12); border: 1px solid var(--accent-red); padding: 16px; border-radius: 8px; margin-bottom: 24px; font-size: 0.88rem; color: #FF8A8A; line-height: 1.6;">
-          <div style="font-weight: 700; margin-bottom: 6px;">⚠️ Production Policy Warnings:</div>
-          <ul style="margin-left: 20px; margin-top: 4px;">
-            <li style="margin-bottom: 4px;">Production ads may not appear immediately. AdSense may require time to serve ads after configuration or account changes.</li>
-            <li>Never click your own ads or encourage others to click them.</li>
-          </ul>
+        <!-- Ad Slot Input -->
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">Ad Slot:</label>
+          <input type="text" id="input-ad-slot" class="input-exercise" style="margin-bottom: 0;" required value="${webConfig.adSlot || '7321969663'}" placeholder="7321969663" />
         </div>
 
-        <button type="submit" id="btn-save-adsense" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
-          [ Save AdSense Settings ]
+        <button type="submit" id="btn-save-adsense" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; margin-bottom: 24px;">
+          Save Settings
         </button>
       </form>
+
+      <!-- Status Summary Section -->
+      <div style="background: #161616; padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.88rem; line-height: 1.7; color: var(--text-secondary);">
+        <div style="font-weight: 700; color: var(--accent-yellow); margin-bottom: 8px;">Status Summary:</div>
+        <div>Current status: <strong style="color: ${isEnabled ? 'var(--success-color)' : 'var(--accent-red)'};">${isEnabled ? 'Enabled' : 'Disabled'}</strong></div>
+        <div>Configuration source: <strong>Cloud Firestore (/system/admob)</strong></div>
+        <div>Last updated: <strong>${lastUpdatedText}</strong></div>
+      </div>
     </div>
   `;
 
@@ -553,7 +531,7 @@ export async function renderSuperAdminAdSense(appContainer) {
     saveBtn.textContent = 'Saving to Firestore...';
 
     const enabled = main.querySelector('input[name="ads_status"]:checked').value === 'on';
-    const mode = main.querySelector('input[name="ad_mode"]:checked').value;
+    const mode = main.querySelector('#select-ad-mode').value;
     const publisherId = main.querySelector('#input-publisher-id').value.trim();
     const adSlot = main.querySelector('#input-ad-slot').value.trim();
 
@@ -572,7 +550,7 @@ export async function renderSuperAdminAdSense(appContainer) {
       alertBox.textContent = '❌ ' + err.message;
     } finally {
       saveBtn.disabled = false;
-      saveBtn.textContent = '[ Save AdSense Settings ]';
+      saveBtn.textContent = 'Save Settings';
     }
   };
 

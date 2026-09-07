@@ -47,16 +47,14 @@ if (firebaseInitialized && db) {
         const data = docSnap.data();
         if (data) {
           currentAdConfig = {
+            ...data,
             enabled: data.enabled !== undefined ? data.enabled : true,
             web: {
               provider: "adsense",
               mode: data.web?.mode || "production",
               publisherId: data.web?.publisherId || "ca-pub-2296246438593583",
               adSlot: data.web?.adSlot || "7321969663"
-            },
-            // Preserve existing Android AdMob fields
-            ...(data.android ? { android: data.android } : {}),
-            ...(data.admob ? { admob: data.admob } : {})
+            }
           };
           notifyAdConfigListeners(currentAdConfig);
         }
@@ -138,53 +136,38 @@ export function getCurrentUser() {
 
 /**
  * Checks whether the active user is an authorized Super Admin.
- * Super admin authorization is backed by Firebase/Firestore security.
+ * Authority: Firestore document `/system/superadmin`, field `email`.
+ * Compares current authenticated Firebase user's email case-insensitively after trimming.
  */
 export async function checkIsSuperAdmin(user = null) {
-  const currentUser = user || getCurrentUser();
-  if (!currentUser || currentUser.isGuest || !currentUser.uid || currentUser.uid === 'guest_user') {
+  const firebaseUser = getFirebaseUser();
+  const email = (firebaseUser && firebaseUser.email) || (user && user.email);
+
+  if (!email || (firebaseUser && firebaseUser.isAnonymous)) {
     return false;
   }
 
-  // 1. Check custom claim if available on token
-  if (auth && auth.currentUser) {
-    try {
-      const idTokenResult = await auth.currentUser.getIdTokenResult();
-      if (idTokenResult.claims.admin || idTokenResult.claims.superadmin) {
-        return true;
-      }
-    } catch (e) {
-      console.warn('Token claim check error:', e);
-    }
+  const trimmedUserEmail = email.trim().toLowerCase();
+  if (!trimmedUserEmail) {
+    return false;
   }
 
-  // 2. Check user document in Firestore (`users/{uid}`) or `system/admob` admin list
-  if (firebaseInitialized && db) {
-    try {
-      const userDocRef = doc(db, 'users', currentUser.uid);
-      const userSnap = await getDoc(userDocRef);
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        if (userData.role === 'superadmin' || userData.role === 'admin' || userData.isSuperAdmin === true) {
-          return true;
-        }
-      }
+  if (!firebaseInitialized || !db) {
+    return false;
+  }
 
-      // Check system/admob document for admin list
-      const adDocRef = doc(db, 'system', 'admob');
-      const adSnap = await getDoc(adDocRef);
-      if (adSnap.exists()) {
-        const adData = adSnap.data();
-        if (adData.superAdmins && Array.isArray(adData.superAdmins) && adData.superAdmins.includes(currentUser.uid)) {
-          return true;
-        }
-        if (adData.adminUids && Array.isArray(adData.adminUids) && adData.adminUids.includes(currentUser.uid)) {
-          return true;
-        }
+  try {
+    const superAdminDocRef = doc(db, 'system', 'superadmin');
+    const docSnap = await getDoc(superAdminDocRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data && typeof data.email === 'string') {
+        const superAdminEmail = data.email.trim().toLowerCase();
+        return trimmedUserEmail === superAdminEmail;
       }
-    } catch (e) {
-      console.warn('Firestore admin check failed:', e);
     }
+  } catch (e) {
+    console.warn('Super Admin authorization check failed or offline:', e);
   }
 
   return false;
