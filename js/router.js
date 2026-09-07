@@ -31,7 +31,7 @@ export function parseHashRoute() {
     return { route: 'profile' };
   }
 
-  if (parts[0] === 'super-admin') {
+  if (parts[0] === 'superadmin' || parts[0] === 'super-admin') {
     const subRoute = parts[1] || 'adsense';
     return { route: 'super-admin', subRoute };
   }
