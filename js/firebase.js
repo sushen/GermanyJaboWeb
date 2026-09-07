@@ -1,6 +1,7 @@
 // Reusable Firebase Initialization Module (Web SDK v12.18.0)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js';
 
 const firebaseConfig = {
@@ -15,6 +16,7 @@ const firebaseConfig = {
 
 let app = null;
 let auth = null;
+let db = null;
 let analytics = null;
 let googleProvider = null;
 let firebaseInitialized = false;
@@ -22,6 +24,7 @@ let firebaseInitialized = false;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
+  db = getFirestore(app);
   googleProvider = new GoogleAuthProvider();
   if (typeof window !== 'undefined' && firebaseConfig.measurementId) {
     try {
@@ -35,4 +38,4 @@ try {
   console.warn('Firebase initialization failed or offline mode fallback:', e);
 }
 
-export { app, auth, analytics, googleProvider, firebaseInitialized, firebaseConfig };
+export { app, auth, db, analytics, googleProvider, firebaseInitialized, firebaseConfig, doc, getDoc, setDoc, onSnapshot };
